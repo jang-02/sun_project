@@ -131,9 +131,9 @@ void main() {
   test('시간통계', () {
     final document = XmlDocument.parse(bookshelfXml);
     final results = document.findAllElements('results');
-    var locationInfo = <LocModel>[];
+    var locationInfo = <NaverApiModel>[];
     results.forEach((node) {
-      locationInfo.add(LocModel.fromXml(node));
+      locationInfo.add(NaverApiModel.fromXml(node));
       node.findAllElements('name').map((e) => e.text).forEach(print);
     });
     print(locationInfo.length);
@@ -143,13 +143,13 @@ void main() {
   });
 }
 
-class LocModel {
+class NaverApiModel {
   String? area1;
   String? area2;
-  LocModel({this.area1, this.area2});
+  NaverApiModel({this.area1, this.area2});
 
-  factory LocModel.fromXml(XmlElement xml) {
-    return LocModel(
+  factory NaverApiModel.fromXml(XmlElement xml) {
+    return NaverApiModel(
         area1: XmlUtils.searchResult(xml, 'area1'),
         area2: XmlUtils.searchResult(xml, 'area2'));
   }

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:sun_project/src/repository/addressxml.dart';
 
-class LocationRepository {
+class NaverApiRepository {
   AddressXml addressxml = AddressXml(
       'https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=128.12345,37.98776&sourcecrs=epsg:4326&output=xml');
 
@@ -17,7 +17,7 @@ class LocationRepository {
   //       }));
   // }
 
-  fetchLocaitonStatistics() async {
+  fetchNaverApiStatistics() async {
     var response = await addressxml.getXmlData();
     print(response);
   }

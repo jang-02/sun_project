@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       initialBinding: BindingsBuilder(() {
-        Get.put(LocationController());
+        Get.put(NaverApiController());
       }),
       theme: ThemeData(
         primarySwatch: Colors.blue,

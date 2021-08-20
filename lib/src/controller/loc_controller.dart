@@ -1,17 +1,17 @@
 import 'package:get/get.dart';
 import 'package:sun_project/src/repository/loc_repository.dart';
 
-class LocationController extends GetxController {
-  late LocationRepository _locationRepository;
+class NaverApiController extends GetxController {
+  late NaverApiRepository _naverApiRepository;
 
   @override
   void onInit() {
     super.onInit();
-    _locationRepository = LocationRepository();
+    _naverApiRepository = NaverApiRepository();
     fetchLocationState();
   }
 
   void fetchLocationState() {
-    _locationRepository.fetchLocaitonStatistics();
+    _naverApiRepository.fetchNaverApiStatistics();
   }
 }
