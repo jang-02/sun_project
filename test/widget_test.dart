@@ -9,149 +9,70 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:xml/xml.dart';
 
 void main() {
-  final bookshelfXml = '''<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-    <geocoding>
-        <status>
-            <code>0</code>
-            <name>ok</name>
-            <message>done</message>
-        </status>
-        <results>
-            <order>
-                <name>legalcode</name>
-                <code>
-                    <id>4281031024</id>
-                    <type>L</type>
-                    <mappingId>0181031024</mappingId>
-                </code>
-                <region>
-                    <area0>
-                        <name>kr</name>
-                        <alias/>
-                        <coords/>
-                    </area0>
-                    <area1>
-                        <name>강원도</name>
-                        <alias>강원</alias>
-                        <coords>
-                            <center>
-                                <crs>EPSG:4326</crs>
-                                <x>128.3115261</x>
-                                <y>37.8603672</y>
-                            </center>
-                        </coords>
-                    </area1>
-                    <area2>
-                        <name>인제군</name>
-                        <alias/>
-                        <coords>
-                            <center>
-                                <crs>EPSG:4326</crs>
-                                <x>128.170352</x>
-                                <y>38.069732</y>
-                            </center>
-                        </coords>
-                    </area2>
-                    <area3>
-                        <name>남면</name>
-                        <alias/>
-                        <coords>
-                            <center>
-                                <crs>EPSG:4326</crs>
-                                <x>128.083362</x>
-                                <y>37.965968</y>
-                            </center>
-                        </coords>
-                    </area3>
-                    <area4>
-                        <name>부평리</name>
-                        <alias/>
-                        <coords>
-                            <center>
-                                <crs>EPSG:4326</crs>
-                                <x>128.1122362</x>
-                                <y>37.992805</y>
-                            </center>
-                        </coords>
-                    </area4>
-                </region>
-            </order>
-            <order>
-                <name>admcode</name>
-                <code>
-                    <id>4281031000</id>
-                    <type>L</type>
-                    <mappingId>01810310</mappingId>
-                </code>
-                <region>
-                    <area0>
-                        <name>kr</name>
-                        <alias/>
-                        <coords/>
-                    </area0>
-                    <area1>
-                        <name>강원도</name>
-                        <alias>강원</alias>
-                        <coords>
-                            <center>
-                                <crs>EPSG:4326</crs>
-                                <x>128.3115261</x>
-                                <y>37.8603672</y>
-                            </center>
-                        </coords>
-                    </area1>
-                    <area2>
-                        <name>인제군</name>
-                        <alias/>
-                        <coords>
-                            <center>
-                                <crs>EPSG:4326</crs>
-                                <x>128.170352</x>
-                                <y>38.069732</y>
-                            </center>
-                        </coords>
-                    </area2>
-                    <area3>
-                        <name>남면</name>
-                        <alias/>
-                        <coords>
-                            <center>
-                                <crs>EPSG:4326</crs>
-                                <x>128.083362</x>
-                                <y>37.965968</y>
-                            </center>
-                        </coords>
-                    </area3>
-                    <area4/>
-                </region>
-            </order>
-        </results>
-    </geocoding>''';
+  final bookshelfXml =
+      '''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<response>
+    <header>
+        <resultCode>00</resultCode>
+        <resultMsg>NORMAL SERVICE.</resultMsg>
+    </header>
+    <body>
+        <items>
+            <item>
+                <aste>2048  </aste>
+                <astm>0420  </astm>
+                <civile>1942  </civile>
+                <civilm>0527  </civilm>
+                <latitude>3733</latitude>
+                <latitudeNum>37.5500000</latitudeNum>
+                <location>서울</location>
+                <locdate>20210823</locdate>
+                <longitude>12658</longitude>
+                <longitudeNum>126.9666660</longitudeNum>
+                <moonrise>2004  </moonrise>
+                <moonset>0614  </moonset>
+                <moontransit>0050  </moontransit>
+                <naute>2014  </naute>
+                <nautm>0454  </nautm>
+                <sunrise>0555  </sunrise>
+                <sunset>1914  </sunset>
+                <suntransit>123444</suntransit>
+            </item>
+        </items>
+        <numOfRows>10</numOfRows>
+        <pageNo>1</pageNo>
+        <totalCount>1</totalCount>
+    </body>
+</response>''';
 
   test('시간통계', () {
     final document = XmlDocument.parse(bookshelfXml);
-    final results = document.findAllElements('results');
-    var locationInfo = <NaverApiModel>[];
-    results.forEach((node) {
-      locationInfo.add(NaverApiModel.fromXml(node));
-      node.findAllElements('name').map((e) => e.text).forEach(print);
-    });
-    print(locationInfo.length);
-    locationInfo.forEach((location) {
-      print(location.area1?.substring(25, 28));
+    final items = document.findAllElements('item');
+
+    items.forEach((node) {
+      node.findAllElements('sunset').map((e) => e.text).forEach(print);
+      // print(node.findAllElements('name').map((e) => e.text).first);
     });
   });
 }
 
-class NaverApiModel {
-  String? area1;
-  String? area2;
-  NaverApiModel({this.area1, this.area2});
+class SunsetTimeModel {
+  String? sunset;
+  String? sunrise;
+  SunsetTimeModel({this.sunset, this.sunrise});
 
-  factory NaverApiModel.fromXml(XmlElement xml) {
-    return NaverApiModel(
-        area1: XmlUtils.searchResult(xml, 'area1'),
-        area2: XmlUtils.searchResult(xml, 'area2'));
+  factory SunsetTimeModel.fromXml(XmlElement sstxml) {
+    return SunsetTimeModel(
+        sunset: SstXmlUtils.searchResult(sstxml, 'sunset'),
+        sunrise: SstXmlUtils.searchResult(sstxml, 'sunrise'));
+  }
+}
+
+class SstXmlUtils {
+  static String searchResult(XmlElement sstxml, String key) {
+    return sstxml.findAllElements(key).map((e) => e.text).isEmpty
+        ? ""
+        : sstxml.findAllElements(key).map((e) => e.text).first;
   }
 }
 

@@ -18,6 +18,6 @@ class AddressXml {
     var asdf = utf8.decode(response.bodyBytes);
     var xmlData = XmlDocument.parse(asdf);
 
-    return xmlData;
+    return asdf;
   }
 }
